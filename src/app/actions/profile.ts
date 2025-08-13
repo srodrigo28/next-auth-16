@@ -16,10 +16,12 @@ export async function updateProfile(formData: FormData) {
   const nome = formData.get('nome') as string;
   const telefone = formData.get('telefone') as string;
   const avatarFile = formData.get('avatar') as File;
+  const email = formData.get('email') as string;
 
-  const profileData: { nome: string; telefone: string; avatar_url?: string } = {
+  const profileData: { nome: string; telefone: string; email: string; avatar_url?: string } = {
     nome,
     telefone,
+    email: email
   };
 
   if (avatarFile && avatarFile.size > 0) {
