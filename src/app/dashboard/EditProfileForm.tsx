@@ -10,7 +10,6 @@ export default function EditProfileForm({ profile }: { profile: Profile }) {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(profile.avatar_url);
 
   const [telefone, setTelefone] = useState(() => {
-    // inicializa já formatado se profile.telefone existir
     if (!profile.telefone) return '';
     const digits = profile.telefone.replace(/\D/g, '');
     if (digits.length > 11) return `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7,11)}`;
@@ -51,7 +50,6 @@ export default function EditProfileForm({ profile }: { profile: Profile }) {
     setMessage('Atualizando...');
     
     const formData = new FormData(event.currentTarget);
-    // adiciona o telefone formatado corretamente no formData
     formData.set('telefone', telefone);
 
     const result = await updateProfile(formData);
@@ -64,18 +62,18 @@ export default function EditProfileForm({ profile }: { profile: Profile }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 w-96 flex flex-col bg-sky-100 px-10 py-5 rounded-xl">
+    <form onSubmit={handleSubmit} className="space-y-6 w-96 flex flex-col bg-slate-800 px-10 py-5 rounded-xl">
       <div className="shrink-0 mx-auto">
-          <Image
-            className="h-44 w-44 object-cover rounded-full"
-            src={avatarPreview || '/default-avatar.png'}
-            alt="Avatar atual"
-            width={200}
-            height={200}
-          />
-        </div>
+        <Image
+          className="h-44 w-44 object-cover rounded-full"
+          src={avatarPreview || '/default-avatar.png'}
+          alt="Avatar atual"
+          width={200}
+          height={200}
+        />
+      </div>
+
       <div className="flex items-center space-x-6">
-        
         <label className="block">
           <span className="sr-only">Escolha uma foto de perfil</span>
           <input
@@ -94,19 +92,19 @@ export default function EditProfileForm({ profile }: { profile: Profile }) {
       </div>
 
       <div>
-        <label htmlFor="nome" className="block text-sm font-medium text-gray-700">Nome</label>
+        <label htmlFor="nome" className="block text-sm font-medium text-gray-200">Nome</label>
         <input
           type="text"
           name="nome"
           id="nome"
           defaultValue={profile.nome || ''}
           required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+          className="mt-1 block text-slate-200 tracking-wider w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
         />
       </div>
 
       <div>
-        <label htmlFor="telefone" className="block text-sm font-medium text-gray-700">Telefone</label>
+        <label htmlFor="telefone" className="block text-sm font-medium text-gray-200">Telefone</label>
         <input
           type="tel"
           name="telefone"
@@ -115,7 +113,7 @@ export default function EditProfileForm({ profile }: { profile: Profile }) {
           onChange={handleTelefoneChange}
           required
           maxLength={15}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+          className="mt-1 block text-slate-200 tracking-wider w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
         />
       </div>
 
@@ -128,7 +126,7 @@ export default function EditProfileForm({ profile }: { profile: Profile }) {
         </button>
       </div>
       
-      {message && <p className="text-center text-sm text-gray-600 mt-4">{message}</p>}
+      {message && <p className="text-center text-sm text-gray-400 mt-4">{message}</p>}
     </form>
   );
 }
