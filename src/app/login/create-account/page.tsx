@@ -4,6 +4,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { signup, type AuthFormState } from '@/app/actions/auth';
+import { User, Mail, Phone, Lock } from 'lucide-react'; // ícones
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -11,7 +12,7 @@ function SubmitButton() {
     <button 
       type="submit" 
       disabled={pending} 
-      className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+      className="w-full py-3 bg-blue-500 text-white font-semibold rounded-xl shadow hover:bg-blue-400 transition disabled:bg-gray-600"
     >
       {pending ? 'Criando conta...' : 'Criar Conta'}
     </button>
@@ -22,7 +23,6 @@ export default function CreateAccountPage() {
   const router = useRouter();
   const initialState: AuthFormState = { success: false, message: '' };
   const [state, formAction] = useFormState(signup, initialState);
-
   const [telefone, setTelefone] = useState('');
 
   useEffect(() => {
@@ -32,9 +32,8 @@ export default function CreateAccountPage() {
   }, [state, router]);
 
   function handleTelefoneChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let value = e.target.value.replace(/\D/g, ''); // remove tudo que não é número
+    let value = e.target.value.replace(/\D/g, '');
     if (value.length > 11) value = value.slice(0, 11);
-
     if (value.length > 6) {
       value = `(${value.slice(0,2)}) ${value.slice(2,7)}-${value.slice(7)}`;
     } else if (value.length > 2) {
@@ -42,74 +41,106 @@ export default function CreateAccountPage() {
     } else if (value.length > 0) {
       value = `(${value}`;
     }
-
     setTelefone(value);
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-8 bg-white rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center">Criar Conta</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 px-10">
+      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-2xl p-8 border border-gray-700">
+        <h1 className="text-3xl font-bold text-center text-white mb-6">
+          Criar Conta
+        </h1>
         
         {state.message && (
           <div 
-            className={`mb-4 p-3 rounded-md text-center text-sm ${
-              state.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+            className={`mb-4 p-3 rounded-lg text-center text-sm ${
+              state.success 
+                ? 'bg-green-600/20 text-green-400' 
+                : 'bg-red-600/20 text-red-400'
             }`}
           >
             {state.message}
           </div>
         )}
 
-        <form action={formAction} className="space-y-4">
+        <form action={formAction} className="space-y-5">
           <div>
-            <label className="block mb-1 font-semibold text-black" htmlFor="nome">Nome</label>
-            <input 
-              id="nome" 
-              name="nome" 
-              type="text" 
-              required 
-              className="w-full px-3 py-2 border rounded-lg text-black" 
-            />
+            <label htmlFor="nome" className="block text-sm font-semibold text-gray-300 mb-1">
+              Nome
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input 
+                id="nome" 
+                name="nome" 
+                type="text" 
+                required 
+                className="w-full pl-10 pr-3 py-2 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition" 
+                placeholder="Seu nome completo"
+              />
+            </div>
           </div>
+
           <div>
-            <label className="block mb-1 font-semibold text-black" htmlFor="email">Email</label>
-            <input 
-              id="email" 
-              name="email" 
-              type="email" 
-              required 
-              className="w-full px-3 py-2 border rounded-lg text-black" 
-            />
+            <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-1">
+              Email
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input 
+                id="email" 
+                name="email" 
+                type="email" 
+                required 
+                className="w-full pl-10 pr-3 py-2 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition" 
+                placeholder="seu@email.com"
+              />
+            </div>
           </div>
+
           <div>
-            <label className="block mb-1 font-semibold text-black" htmlFor="telefone">Telefone</label>
-            <input 
-              id="telefone" 
-              name="telefone" 
-              type="tel" 
-              required 
-              className="w-full px-3 py-2 border rounded-lg text-black" 
-              value={telefone}
-              onChange={handleTelefoneChange}
-              maxLength={15}
-            />
+            <label htmlFor="telefone" className="block text-sm font-semibold text-gray-300 mb-1">
+              Telefone
+            </label>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input 
+                id="telefone" 
+                name="telefone" 
+                type="tel" 
+                required 
+                value={telefone}
+                onChange={handleTelefoneChange}
+                maxLength={15}
+                className="w-full pl-10 pr-3 py-2 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition" 
+                placeholder="(99) 99999-9999"
+              />
+            </div>
           </div>
+
           <div>
-            <label className="block mb-1 font-semibold text-black" htmlFor="password">Senha</label>
-            <input 
-              id="password" 
-              name="password" 
-              type="password" 
-              required 
-              className="w-full px-3 py-2 border rounded-lg text-black" 
-            />
+            <label htmlFor="password" className="block text-sm font-semibold text-gray-300 mb-1">
+              Senha
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input 
+                id="password" 
+                name="password" 
+                type="password" 
+                required 
+                className="w-full pl-10 pr-3 py-2 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none transition" 
+                placeholder="••••••••"
+              />
+            </div>
           </div>
+
           <SubmitButton />
         </form>
-        <p className="mt-6 text-center text-sm">
+
+        <p className="mt-6 text-center text-sm text-gray-400">
           Já tem conta?{' '}
-          <a href="/login" className="text-blue-500 hover:underline">
+          <a href="/login" className="text-blue-400 font-semibold hover:underline">
             Faça login
           </a>
         </p>
