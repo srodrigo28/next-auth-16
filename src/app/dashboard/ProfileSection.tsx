@@ -55,7 +55,7 @@ export default function ProfileSection({ profile }: { profile: Profile }) {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h2 className="text-2xl text-slate-300 font-bold mb-6">Editar Perfil</h2>
+        <h2 className="text-2xl text-slate-300 font-bold mb-6">Editar</h2>
         <EditProfileForm profile={profile} />
       </Modal>
     </>
